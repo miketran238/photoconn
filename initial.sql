@@ -73,11 +73,23 @@ FOREIGN KEY (p_id) REFERENCES Photographers(photographer_id)
 
 INSERT INTO Photographers VALUES (1, 'miketran238', 'Mike', 'Tran', 'soulkeeper2389@gmail.com', '4558881234');
 INSERT INTO Photographers VALUES (2, 'THEONE', 'Neo', 'Anderson', 'neo12@gmail.com', '0100100011');
+DELETE FROM Photographers WHERE p_email = 'neo12@gmail.com'; 
 INSERT INTO Photographers VALUES (3, 'user', 'Thomas', 'Brad', 'masbrad234@gmail.com', '9095617383');
 INSERT INTO Photographers VALUES (4, 'tora', 'Tora', 'Sai', 'toraaaa@gmail.com', '5023468796');
+UPDATE Photographers SET p_username = 'ToraSai09' WHERE photographer_id = 4;
 INSERT INTO Photographers VALUES (5, 'daica2', 'Dai', 'Nguyen', 'dainguyen1211@yahoo.com', '09042875566');
+UPDATE Photographers SET p_username = 'DaiNguyen2511' WHERE photographer_id = 5;
 INSERT INTO Photographers VALUES (6, 'photographyguy', 'Nick', 'Brown', 'nicky86@gmail.com', '9558975621');
 INSERT INTO Photographers VALUES (7, 'zoro', 'Zoro', 'Takeda', 'zorozoro010@gmai.com', '6756696248');
+DELETE FROM Photographers WHERE p_username = 'zoro';
 INSERT INTO Customers VALUES (1, 'miketran238', 'Mike', 'Tran', 'soulkeeper2389@gmail.com', '4558881234');
 INSERT INTO Customers VALUES (2, 'kiisouk', 'Duy An', 'Nguyen', 'kiisouk1@gmail.com', '4384679982');
 INSERT INTO Customers VALUES (3, 'theLegend', 'Legend', 'Kokoro', 'legend1legend2@gmail.com', '5550956755');
+
+-- A select query to pull information from a customer based on the user name
+SELECT * FROM Customers WHERE c_username = 'miketran238';
+-- A select query to get all the photos uploaded by a particular photographer 
+SELECT photo_url FROM Photos WHERE photographer_id = '1';
+-- A select query to see all the bids and their prices between a customer and a photographer
+SELECT bid_id, price FROM Bids JOIN Photographers_Bids ON Bids.bid_id = Photographers_Bids.b_id 
+WHERE Bids.c_id = 1 AND Photographers_Bids.p_id = 1;
