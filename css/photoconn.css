@@ -690,11 +690,11 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
   background-color: #fe6f36;
 }
 
-#loginForm {
+/* #loginForm {
   width: 100%;
   height: 100%;
   position: absolute;
-  visibility:hidden;
+  visibility:visible;
   display:none;
   background-color: rgba(22,22,22,0.5);
 }
@@ -702,11 +702,21 @@ ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons l
 #loginForm:target {
   visibility: visible;
   display: block;
+} */
+
+#register {
+  visibility: hidden;
+  display: none;
 }
+#register:target {
+  visibility: visible;
+  display: block;
+}
+
 .form-container {
- 
+  background:#e1e1e1; 
   margin: 0 auto;
-  width: 30%; 
+  width: 40%; 
   position:relative; 
   z-index:41;
   top: 25%;

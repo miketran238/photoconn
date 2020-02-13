@@ -12,6 +12,7 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
 
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -20,9 +21,14 @@
   <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
     type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/agency.css" rel="stylesheet">
+  <link href="css/photoconn.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css" rel="stylesheet">
+  <link href="css/fluid-gallery.css" rel="stylesheet">
+
+
 
 </head>
 
@@ -90,6 +96,21 @@
     function closeForm() {
       document.getElementById("loginForm").style.display = "none";
     }
+
+    function register() {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("loginForm").style.visibility = "hidden";
+      document.getElementById("register").style.display = "block";
+      document.getElementById("register").style.visibility = "visible";
+    }
+
+    function login() {
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("loginForm").style.visibility = "visible";
+      document.getElementById("register").style.display = "none";
+      document.getElementById("register").style.visibility = "hidden";
+    }
+
   </script>
 
   <!-- About -->
@@ -221,7 +242,7 @@
     </div>
   </section>
 
-  <section class="bg-light page-section" id="customers">
+  <section class="page-section" id="customers">
     <div class="container">
       <div class="row">
         <div class="col-lg-12 text-center">
@@ -261,32 +282,121 @@
     </div>
   </section>
 
+  <section class="page-section" id="gallery">
+    <div class="container gallery-container">
+
+      <h1>Discover our gallery </h1>
+      <p class="page-description text-center">Most Popular Photos</p>
+      <div class="tz-gallery">
+        <div class="row">
+
+          <div class="col-sm-12 col-md-4">
+            <a class="lightbox" href="img/bridge.jpg">
+              <img src="img/bridge.jpg" alt="Bridge">
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a class="lightbox" href="img/park.jpg">
+              <img src="img/park.jpg" alt="Park">
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a class="lightbox" href="img/tunnel.jpg">
+              <img src="img/tunnel.jpg" alt="Tunnel">
+            </a>
+          </div>
+          <div class="col-sm-12 col-md-8">
+            <a class="lightbox" href="img/traffic.jpg">
+              <img src="img/traffic.jpg" alt="Traffic">
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a class="lightbox" href="img/coast.jpg">
+              <img src="img/coast.jpg" alt="Coast">
+            </a>
+          </div>
+          <div class="col-sm-6 col-md-4">
+            <a class="lightbox" href="img/rails.jpg">
+              <img src="img/rails.jpg" alt="Rails">
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- Sign In -->
-  <section class="page-section" id="signin" style="background-color: #fa7822;">
-    <!-- <div class="form-popup" id="loginForm"> -->
-      <form action="/login.php" class="form-container" style="background-color: #ffffff;">
+  <section class="page-section" id="loginForm" style="background-color: #fa7822;">
+    <div class="form-popup">
+      <form action="./login.php" class="form-container" style="background-color: #ffffff;">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Welcome back!</h2>
         </div>
         <label for="email"><b>Username/Email</b></label>
         <div class="form-group">
-          <input class="form-control" id="username" name="username" type="text" placeholder="Your Username/Email *" required="required"
-            data-validation-required-message="Please enter your username.">
+          <input class="form-control" id="username" name="username" type="text" placeholder="Your Username/Email *"
+            required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
         <label for="psw"><b>Password</b></label>
         <div class="form-group">
-          <input class="form-control" id="pa" name="password" type="password" placeholder="Your Password *" required="required"
-            data-validation-required-message="Please enter your username.">
+          <input class="form-control" id="pa" name="password" type="password" placeholder="Your Password *"
+            required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
         <div class="col-lg-12 text-center">
           <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Login</button>
         </div>
         <br>
-        <div> New to PhotoConn? <button type="submit" class="btn" onclick="register()">Register Now!</button></div>
+        <div> New to PhotoConn? <a class="btn" onclick="register()">Register Now!</a></div>
       </form>
-    <!-- </div> -->
+    </div>
+  </section>
+
+  <!-- Register -->
+  <section class="page-section" id="register" style="background-color: #fa7822;">
+    <form action="./register.php" class="form-container" style="background-color: #ffffff;">
+      <div class="col-lg-12 text-center">
+        <h2 class="section-heading text-uppercase">We're delighted to have you!</h2>
+      </div>
+      <label for="yourname"><b>About You</b></label>
+      <div class="form-group">
+        <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Your First Name *"
+          required="required" data-validation-required-message="Please enter your first name.">
+        <p class="help-block text-danger"></p>
+        <input class="form-control" id="lastname" name="lastname" type="text" placeholder="Your Last Name *"
+          required="required" data-validation-required-message="Please enter your last name.">
+        <p class="help-block text-danger"></p>
+        <input class="form-control" id="phoneN0" name="password" type="text" placeholder="Your Phone Number">
+        <p class="help-block text-danger"></p>
+        <input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="Your Zip Code">
+        <p class="help-block text-danger"></p>
+        Are you a photographer or a customer? <br>
+        <input type="checkbox" name="isPhotographer" value="true"> I'm a photographer<br>
+        <input type="checkbox" name="isCustomer" value="true"> I'm a customer<br>
+      </div>
+      <label for="email"><b>Username/Email</b></label>
+      <div class="form-group">
+        <input class="form-control" id="username" name="username" type="text" placeholder="Your Username/Email *"
+          required="required" data-validation-required-message="Please enter your username.">
+        <p class="help-block text-danger"></p>
+      </div>
+      <label for="psw"><b>Password</b></label>
+      <div class="form-group">
+        <input class="form-control" id="pa" name="password" type="password" placeholder="Your Password *"
+          required="required" data-validation-required-message="Please enter your password.">
+        <p class="help-block text-danger"></p>
+      </div>
+      <div class="col-lg-12 text-center">
+        <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Register</button>
+      </div>
+      <div> Alreayd a member? <a class="btn" onclick="login()">Login Now!</a></div>
+    </form>
+    </div>
   </section>
 
   <!-- Team -->
@@ -386,24 +496,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3 col-sm-6">
-          <a href="#">
             <img class="img-fluid d-block mx-auto" src="img/logos/canon.png" alt="">
-          </a>
         </div>
         <div class="col-md-3 col-sm-6">
-          <a href="#">
             <img class="img-fluid d-block mx-auto" src="img/logos/nikon.png" alt="">
-          </a>
         </div>
         <div class="col-md-3 col-sm-6">
-          <a href="#">
             <img class="img-fluid d-block mx-auto" src="img/logos/sony.png" alt="">
-          </a>
         </div>
         <div class="col-md-3 col-sm-6">
-          <a href="#">
             <img class="img-fluid d-block mx-auto" src="img/logos/fuji.png" alt="">
-          </a>
         </div>
       </div>
     </div>
@@ -729,7 +831,14 @@
   <script src="js/contact_me.js"></script>
 
   <!-- Custom scripts for this template -->
-  <script src="js/agency.min.js"></script>
+  <script src="js/photoconn.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
+  <script>
+    baguetteBox.run('.tz-gallery');
+</script>
+
+
 
 </body>
 

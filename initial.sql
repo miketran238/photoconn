@@ -52,7 +52,7 @@ b_location VARCHAR(50),
 bid_date DATE,
 bid_time TIME,
 price INTEGER NOT NULL,
-FOREIGN KEY (c_id) REFERENCES Users(user_id),
+FOREIGN KEY (c_id) REFERENCES Users(user_id)
 );
 
 CREATE TABLE Users_Bids (
