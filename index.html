@@ -50,10 +50,10 @@
             <a class="nav-link js-scroll-trigger" href="#about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#photographers">Discover</a>
+            <a class="nav-link js-scroll-trigger" href="#discover">Discover</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#signin">Sign In</a>
+            <a class="nav-link js-scroll-trigger" id="LoginOrRegister" href="#loginForm">Sign In</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#contact">Contact Us</a>
@@ -102,6 +102,9 @@
       document.getElementById("loginForm").style.visibility = "hidden";
       document.getElementById("register").style.display = "block";
       document.getElementById("register").style.visibility = "visible";
+      var link = document.getElementById("LoginOrRegister");
+      link.setAttribute("href", "#register");
+      link.innerHTML = "Register";
     }
 
     function login() {
@@ -109,6 +112,9 @@
       document.getElementById("loginForm").style.visibility = "visible";
       document.getElementById("register").style.display = "none";
       document.getElementById("register").style.visibility = "hidden";
+      var link = document.getElementById("LoginOrRegister");
+      link.setAttribute("href", "#loginForm");
+      link.innerHTML = "Login";
     }
 
   </script>
@@ -282,14 +288,12 @@
     </div>
   </section>
 
-  <section class="page-section" id="gallery">
+  <section class="page-section" id="discover">
     <div class="container gallery-container">
-
       <h1>Discover our gallery </h1>
       <p class="page-description text-center">Most Popular Photos</p>
       <div class="tz-gallery">
         <div class="row">
-
           <div class="col-sm-12 col-md-4">
             <a class="lightbox" href="img/bridge.jpg">
               <img src="img/bridge.jpg" alt="Bridge">
@@ -416,17 +420,17 @@
             <p class="text-muted">Lead Designer</p>
             <ul class="list-inline social-buttons">
               <li class="list-inline-item">
-                <a href="#">
+                <a name="foo">
                   <i class="fab fa-twitter"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="">
                   <i class="fab fa-facebook-f"></i>
                 </a>
               </li>
               <li class="list-inline-item">
-                <a href="#">
+                <a href="">
                   <i class="fab fa-linkedin-in"></i>
                 </a>
               </li>
