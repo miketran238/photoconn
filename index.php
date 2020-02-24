@@ -1,4 +1,41 @@
 <!DOCTYPE html>
+<?php
+  include('db_connection.php');
+  session_start();
+  $errors = array(); 
+  if (isset($_POST['login_user'])) {
+      $username = mysqli_real_escape_string($db, $_POST['username']);
+      $password = mysqli_real_escape_string($db, $_POST['password']);
+      
+      if (empty($username)) {
+          array_push($errors, "Username is required");
+      }
+      if (empty($password)) {
+          array_push($errors, "Password is required");
+      }
+      
+      if (count($errors) == 0) {
+          // $password = md5($password);
+          $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+          $results = mysqli_query($db, $query);
+          $datarow = $results->fetch_array();
+          if (mysqli_num_rows($results) == 1) {
+              $_SESSION['username'] = $username;
+              $_SESSION['name'] = $datarow['firstname'];
+              // echo $_SESSION['name'];
+              $_SESSION['success'] = "You are now logged in";
+              header('location: profile.php');
+          }else {
+              array_push($errors, "Wrong username/password combination");
+          }
+      }
+  }
+  if (count($errors) > 0) {
+      foreach($errors as $error) {
+          echo $error;
+      }
+  }
+  ?>
 <html lang="en">
 
 <head>
@@ -331,11 +368,12 @@
     </div>
   </section>
 
+  
 
   <!-- Sign In -->
   <section class="page-section" id="loginForm" style="background-color: #fa7822;">
     <div class="form-popup">
-      <form action="./login.php" class="form-container" style="background-color: #ffffff;">
+      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Welcome back!</h2>
         </div>
@@ -352,10 +390,11 @@
           <p class="help-block text-danger"></p>
         </div>
         <div class="col-lg-12 text-center">
-          <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit">Login</button>
+          <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit" name="login_user">Login</button>
         </div>
         <br>
         <div> New to PhotoConn? <a class="btn" onclick="register()">Register Now!</a></div>
+        <div> Forgot your password? <a class="btn" onclick="register()">Reset Password</a></div>
       </form>
     </div>
   </section>

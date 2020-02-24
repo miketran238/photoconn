@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+  session_start();
+  ?>
 <html lang="en">
 
 <head>
@@ -38,7 +41,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
       <a class="navbar-brand js-scroll-trigger" href="#page-top">PhotoConn</a>
-      <span> <h2 class="white">Hi, Mike!</h2> </span>
+      <span> <h2 class="white">Hi, <?php echo $_SESSION['name']; ?>!</h2> </span>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
         aria-label="Toggle navigation">
@@ -57,7 +60,7 @@
             <a class="nav-link js-scroll-trigger" href="#discover">Discover</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#signout">Sign Out</a>
+            <a class="nav-link js-scroll-trigger" href="signout.php">Sign Out</a>
           </li>
         </ul>
       </div>
