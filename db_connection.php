@@ -11,7 +11,7 @@ $db = new mysqli($servername, $username, $password, $dbname);
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 }
-echo "Connected successfully. <br>";
+//echo "Connected successfully. <br>";
 
 // $sql = "SELECT username, firstname, lastname FROM users";
 // $result = $conn->query($sql);

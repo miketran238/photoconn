@@ -38,7 +38,8 @@
       }
   }
   if (isset($_POST['register_php'])) {
-    //receive all input values from the form
+    echo "Register";
+    // receive all input values from the form
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
@@ -460,7 +461,7 @@
         </div>
         <label for="psw"><b>Password</b></label>
         <div class="form-group">
-          <input class="form-control" id="pa" name="password" type="password" placeholder="Your Password *"
+          <input class="form-control" id="paLogin" name="password" type="password" placeholder="Your Password *"
             required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
@@ -485,7 +486,7 @@
   <!-- Register -->
   <section class="page-section" id="register" style="background-color: #fa7822;">
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;"
-    novalidate="novalidate">
+    novalidate="novalidate" id="contactForm">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading text-uppercase">We're delighted to have you!</h2>
       </div>
@@ -518,12 +519,12 @@
       </div>
       <label for="psw"><b>Password</b></label>
       <div class="form-group">
-        <input class="form-control" id="pa" name="password" type="password" placeholder="Your Password *"
+        <input class="form-control" id="paRegister" name="password" type="password" placeholder="Your Password *"
           required="required" data-validation-required-message="Please enter your password.">
         <p class="help-block text-danger"></p>
       </div>
       <div class="col-lg-12 text-center">
-        <button id="registerButton" class="btn btn-primary btn-xl text-uppercase" type="submit" name="register_php">Register</button>
+        <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit" name="register_php">Register</button>
       </div>
       <div> Already a member? <a class="btn" onclick="login()">Login Now!</a></div>
     </form>
@@ -642,7 +643,7 @@
     </div>
   </section>
 
-  <!-- Contact -->
+  <!-- Contact
   <section class="page-section" id="contact">
     <div class="container">
       <div class="row">
@@ -690,7 +691,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <!-- Footer -->
   <footer class="footer">
