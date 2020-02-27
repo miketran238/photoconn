@@ -38,7 +38,7 @@
       }
   }
   if (isset($_POST['register_php'])) {
-    // receive all input values from the form
+    //receive all input values from the form
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $email = mysqli_real_escape_string($db, $_POST['email']);
     $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
@@ -87,7 +87,7 @@
     // Finally, register user if there are no errors in the form
     if (count($errors) == 0) {
       //$password = md5($password_1);//encrypt the password before saving in the database
-  
+      echo "No errors";
       $query = "INSERT INTO users (username, email, password, type, 
       firstname, lastname, phone) 
             VALUES('$username', '$email', '$password', $type, '$firstname', '$lastname', '$phone')";
@@ -97,6 +97,13 @@
       $_SESSION['success'] = "You are now logged in";
       unset($_SESSION['errors']);
       header('location: profile.php');
+    }
+    else {
+      if (count($errors) > 0) {
+            foreach($errors as $error) {
+                 echo $error;
+             }
+         }
     }
   }
 
@@ -474,24 +481,11 @@
     </div>
   </section>
 
-  <!-- Script for checkbox validation -->
-  <script type="text/javascript">
-  $(document).ready(function () {
-      $('#registerButton').click(function() {
-        checked1 = $("input[name='isPhotographer']:checked").length;
-        checked2 = $("input[name='isCustomer']:checked").length;
-        if(!checked1 && !checked2) {
-          alert("You must check at least one checkbox.");
-          return false;
-        }
-      });
-  });
-
-</script>
+  
   <!-- Register -->
   <section class="page-section" id="register" style="background-color: #fa7822;">
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;"
-    novalidate="novalidate" id="contactForm">
+    novalidate="novalidate">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading text-uppercase">We're delighted to have you!</h2>
       </div>
