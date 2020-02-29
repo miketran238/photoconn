@@ -8,31 +8,44 @@ $(function() {
     submitSuccess: function($form, event) {
       event.preventDefault(); // prevent default submit behaviour
       // get values from FORM
-      var username = $("input#username").val();
+      var username = $("input#usernameRegister").val();
       var email = $("input#email").val();
       // var phone = $("input#phone").val();
       // var message = $("textarea#message").val();
-      var firstName = $("input#firstname"); // For Success/Failure Message
+      var firstname = $("input#firstname"); 
+      var lastname = $("input#lastname");
+      var password = $("input#password"); 
+      var phone = $("input#phonenumber");
+      var zipcode = $("input#zipcode");
+      var isPhotographer = $("input#isPhotographer");
+      var isCustomer = $("input#isCustomer");
       // Check for white space in name for Success/Fail message
       // if (firstName.indexOf(' ') >= 0) {
       //   firstName = name.split(' ').slice(0, -1).join(' ');
       // }
-      console.log(username);
+      // console.log(username);
       $this = $("#registerButton");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
       console.log("Before AJAX");
       $.ajax({
-        url: "/register.php",
+        url: "././register.php",
         type: "POST",
         data: {
           username: username,
-          // phone: phone,
           email: email,
+          firstname = firstname,
+          lastname = lastname,
+          password = password,
+          phone = phone,
+          zipcode = zipcode,
+          isPhotographer = isPhotographer,
+          isCustomer = isCustomer,
           register_php: true
           // message: message
         },
+        dataType: "text",
         cache: false,
-        success: function() {
+        success: function(data, message) {
           // Success message
           // $('#success').html("<div class='alert alert-success'>");
           // $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
@@ -43,7 +56,10 @@ $(function() {
           //   .append('</div>');
           //clear all fields
           //$('#contactForm').trigger("reset");
+          content.html(data);
+          console.log(message);
           alert('works');
+          window.location.replace("././profile.php");
 
         },
         error: function() {

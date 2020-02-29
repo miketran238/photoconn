@@ -8,13 +8,13 @@
       $password = mysqli_real_escape_string($db, $_POST['password']);
       
       if (empty($username)) {
-          array_push($errors, "Username is required");
+          array_push($_SESSION['errors'], "Username is required");
       }
       if (empty($password)) {
-          array_push($errors, "Password is required");
+          array_push($_SESSION['errors'], "Password is required");
       }
       
-      if (count($errors) == 0) {
+      if (count($_SESSION['errors']) == 0) {
           // $password = md5($password);
           $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
           $results = mysqli_query($db, $query);
@@ -27,7 +27,7 @@
               unset($_SESSION['errors']);
               header('location: profile.php');
           }else {
-              array_push($errors, "Wrong username/password combination");
+              array_push($_SESSION['errors'], "Wrong username/password combination");
                             if (count($_SESSION['errors']) > 0) {
                   foreach($_SESSION['errors'] as $error) {
                       echo $error;
@@ -60,14 +60,14 @@
     } elseif(isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
       $type = 2;
     } else {
-      array_push($errors, "Need to check at least one type of users");
+      array_push($_SESSION['errors'], "Need to check at least one type of users");
     }
   
     // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $errors array
-    if (empty($username)) { array_push($errors, "Username is required"); }
-    if (empty($email)) { array_push($errors, "Email is required"); }
-    if (empty($password)) { array_push($errors, "Password is required"); }
+    // by adding (array_push()) corresponding error unto $_SESSION['errors'] array
+    if (empty($username)) { array_push($_SESSION['errors'], "Username is required"); }
+    if (empty($email)) { array_push($_SESSION['errors'], "Email is required"); }
+    if (empty($password)) { array_push($_SESSION['errors'], "Password is required"); }
   
     // first check the database to make sure 
     // a user does not already exist with the same username and/or email
@@ -77,16 +77,16 @@
     
     if ($user) { // if user exists
       if ($user['username'] === $username) {
-        array_push($errors, "Username already exists");
+        array_push($_SESSION['errors'], "Username already exists");
       }
   
       if ($user['email'] === $email) {
-        array_push($errors, "Email already exists");
+        array_push($_SESSION['errors'], "Email already exists");
       }
     }
   
     // Finally, register user if there are no errors in the form
-    if (count($errors) == 0) {
+    if (count($_SESSION['errors']) == 0) {
       //$password = md5($password_1);//encrypt the password before saving in the database
       echo "No errors";
       $query = "INSERT INTO users (username, email, password, type, 
@@ -100,8 +100,8 @@
       header('location: profile.php');
     }
     else {
-      if (count($errors) > 0) {
-            foreach($errors as $error) {
+      if (count($_SESSION['errors']) > 0) {
+            foreach($_SESSION['errors'] as $error) {
                  echo $error;
              }
          }
@@ -246,79 +246,10 @@
             and online platform for photographers to sell prints and photos. </h3>
         </div>
       </div>
-      <!-- <div class="row">
-          <div class="col-lg-12">
-            <ul class="timeline">
-              <li>
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" src="img/about/1.jpg" alt="">
-                </div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4>2009-2011</h4>
-                    <h4 class="subheading">Our Humble Beginnings</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                  </div>
-                </div>
-              </li>
-              <li class="timeline-inverted">
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" src="img/about/2.jpg" alt="">
-                </div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4>March 2011</h4>
-                    <h4 class="subheading">An Agency is Born</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" src="img/about/3.jpg" alt="">
-                </div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4>December 2012</h4>
-                    <h4 class="subheading">Transition to Full Service</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                  </div>
-                </div>
-              </li>
-              <li class="timeline-inverted">
-                <div class="timeline-image">
-                  <img class="rounded-circle img-fluid" src="img/about/4.jpg" alt="">
-                </div>
-                <div class="timeline-panel">
-                  <div class="timeline-heading">
-                    <h4>July 2014</h4>
-                    <h4 class="subheading">Phase Two Expansion</h4>
-                  </div>
-                  <div class="timeline-body">
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
-                  </div>
-                </div>
-              </li>
-              <li class="timeline-inverted">
-                <div class="timeline-image">
-                  <h4>Be Part
-                    <br>Of Our
-                    <br>Story!</h4>
-                </div>
-              </li>
-            </ul>
-          </div> -->
-      <!-- </div> -->
     </div>
   </section>
 
-  <!-- Discover -->
+  <!-- About cont -->
   <section class="page-section" id="photographers">
     <div class="container">
       <div class="row">
@@ -403,6 +334,7 @@
     </div>
   </section>
 
+    <!-- Discover -->
   <section class="page-section" id="discover">
     <div class="container gallery-container">
       <div class="col-lg-12 text-center">
@@ -455,7 +387,7 @@
         </div>
         <label for="email"><b>Username/Email</b></label>
         <div class="form-group">
-          <input class="form-control" id="username" name="username" type="text" placeholder="Your Username/Email *"
+          <input class="form-control" id="usernameLogin" name="username" type="text" placeholder="Your Username/Email *"
             required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
@@ -466,7 +398,7 @@
           <p class="help-block text-danger"></p>
         </div>
         <div class="col-lg-12 text-center">
-          <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit" name="login_php">Login</button>
+          <button id="sendMessageButton2" class="btn btn-primary btn-xl text-uppercase" type="submit" name="login_php">Login</button>
         </div>
         <br>
         <div> New to PhotoConn? <a class="btn" onclick="register()">Register Now!</a></div>
@@ -508,7 +440,7 @@
       </div>
       <label for="email"><b>Username/Email</b></label>
       <div class="form-group">
-        <input class="form-control" id="username" name="username" type="text" placeholder="Your Username= *"
+        <input class="form-control" id="usernameRegister" name="username" type="text" placeholder="Your Username= *"
           required="required" data-validation-required-message="Please enter your username.">
         <p class="help-block text-danger"></p>
       </div>
