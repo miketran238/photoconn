@@ -1,130 +1,95 @@
 <!DOCTYPE html>
 <?php
-  include('db_connection.php');
-  session_start();
-  $_SESSION['errors'] = array(); 
-  if (isset($_POST['login_php'])) {
-      $username = mysqli_real_escape_string($db, $_POST['username']);
-      $password = mysqli_real_escape_string($db, $_POST['password']);
-      
-      if (empty($username)) {
-          array_push($_SESSION['errors'], "Username is required");
-      }
-      if (empty($password)) {
-          array_push($_SESSION['errors'], "Password is required");
-      }
-      
-      if (count($_SESSION['errors']) == 0) {
-          // $password = md5($password);
-          $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
-          $results = mysqli_query($db, $query);
-          $datarow = $results->fetch_array();
-          if (mysqli_num_rows($results) == 1) {
-              $_SESSION['username'] = $username;
-              $_SESSION['name'] = $datarow['firstname'];
-              // echo $_SESSION['name'];
-              $_SESSION['success'] = "You are now logged in";
-              unset($_SESSION['errors']);
-              header('location: profile.php');
-          }else {
-              array_push($_SESSION['errors'], "Wrong username/password combination");
-                            if (count($_SESSION['errors']) > 0) {
-                  foreach($_SESSION['errors'] as $error) {
-                      echo $error;
-                  }
-              }
-              //header('location:index.php#loginForm');
-          }
-      }
+include('db_connection.php');
+session_start();
+$_SESSION['errors'] = array();
+
+//Register functionality
+if (isset($_POST['register_php'])) {
+  echo "Register";
+  // receive all input values from the form
+  $username = mysqli_real_escape_string($db, $_POST['username']);
+  $email = mysqli_real_escape_string($db, $_POST['email']);
+  $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
+  $lastname = mysqli_real_escape_string($db, $_POST['lastname']);
+  $password = mysqli_real_escape_string($db, $_POST['password']);
+  $type = 0; //Type of users. 0 is both. 1 is Photographer. 2 is Customer
+  $phone = '';
+  if ($_POST['phonenumber']) {
+    $phone = $_POST['phonenumber'];
   }
-  if (isset($_POST['register_php'])) {
-    echo "Register";
-    // receive all input values from the form
-    $username = mysqli_real_escape_string($db, $_POST['username']);
-    $email = mysqli_real_escape_string($db, $_POST['email']);
-    $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
-    $lastname = mysqli_real_escape_string($db, $_POST['lastname']);
-    $password = mysqli_real_escape_string($db, $_POST['password']);
-    $type = 0; //Type of users. 0 is both. 1 is Photographer. 2 is Customer
-    $phone = '';
-    if($_POST['phonenumber']) {
-      $phone = $_POST['phonenumber'];
+
+  if (isset($_POST['isPhotographer']) && $_POST['isPhotographer'] == 'Yes') {
+    if (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
+      $type = 0;
+    } else {
+      $type = 1;
+    }
+  } elseif (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
+    $type = 2;
+  } else {
+    array_push($_SESSION['errors'], "Need to check at least one type of users");
+  }
+
+  // form validation: ensure that the form is correctly filled ...
+  // by adding (array_push()) corresponding error unto $_SESSION['errors'] array
+  if (empty($username)) {
+    array_push($_SESSION['errors'], "Username is required");
+  }
+  if (empty($email)) {
+    array_push($_SESSION['errors'], "Email is required");
+  }
+  if (empty($password)) {
+    array_push($_SESSION['errors'], "Password is required");
+  }
+
+  // first check the database to make sure 
+  // a user does not already exist with the same username and/or email
+  $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
+  $result = mysqli_query($db, $user_check_query);
+  $user = mysqli_fetch_assoc($result);
+
+  if ($user) { // if user exists
+    if ($user['username'] === $username) {
+      array_push($_SESSION['errors'], "Username already exists");
     }
 
-    if(isset($_POST['isPhotographer']) && $_POST['isPhotographer'] == 'Yes') {
-      if(isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
-        $type = 0;
-      } else {
-        $type = 1;
-      }
-    } elseif(isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
-      $type = 2;
-    } else {
-      array_push($_SESSION['errors'], "Need to check at least one type of users");
+    if ($user['email'] === $email) {
+      array_push($_SESSION['errors'], "Email already exists");
     }
-  
-    // form validation: ensure that the form is correctly filled ...
-    // by adding (array_push()) corresponding error unto $_SESSION['errors'] array
-    if (empty($username)) { array_push($_SESSION['errors'], "Username is required"); }
-    if (empty($email)) { array_push($_SESSION['errors'], "Email is required"); }
-    if (empty($password)) { array_push($_SESSION['errors'], "Password is required"); }
-  
-    // first check the database to make sure 
-    // a user does not already exist with the same username and/or email
-    $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-    $result = mysqli_query($db, $user_check_query);
-    $user = mysqli_fetch_assoc($result);
-    
-    if ($user) { // if user exists
-      if ($user['username'] === $username) {
-        array_push($_SESSION['errors'], "Username already exists");
-      }
-  
-      if ($user['email'] === $email) {
-        array_push($_SESSION['errors'], "Email already exists");
-      }
-    }
-  
-    // Finally, register user if there are no errors in the form
-    if (count($_SESSION['errors']) == 0) {
-      //$password = md5($password_1);//encrypt the password before saving in the database
-      echo "No errors";
-      $query = "INSERT INTO users (username, email, password, type, 
+  }
+
+  // Finally, register user if there are no errors in the form
+  if (count($_SESSION['errors']) == 0) {
+    //$password = md5($password_1);//encrypt the password before saving in the database
+    echo "No errors";
+    $query = "INSERT INTO users (username, email, password, type, 
       firstname, lastname, phone) 
             VALUES('$username', '$email', '$password', $type, '$firstname', '$lastname', '$phone')";
-      mysqli_query($db, $query);
-      $_SESSION['username'] = $username;
-      $_SESSION['name'] = $firstname;
-      $_SESSION['success'] = "You are now logged in";
-      unset($_SESSION['errors']);
-      header('location: profile.php');
-    }
-    else {
-      if (count($_SESSION['errors']) > 0) {
-            foreach($_SESSION['errors'] as $error) {
-                 echo $error;
-             }
-         }
+    mysqli_query($db, $query);
+    $_SESSION['username'] = $username;
+    $_SESSION['name'] = $firstname;
+    $_SESSION['success'] = "You are now logged in";
+    unset($_SESSION['errors']);
+    header('location: profile.php');
+  } else {
+    if (count($_SESSION['errors']) > 0) {
+      foreach ($_SESSION['errors'] as $error) {
+        echo $error;
+      }
     }
   }
-
-  // if (count($errors) > 0) {
-  //     foreach($errors as $error) {
-  //         echo $error;
-  //     }
-  // }
-  ?>
+}
+?>
 
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
-  <title>PhotoConn - Connect Photography Geeks</title>
+  <title>PhotoBook - Connect Photography Geeks</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -134,8 +99,7 @@
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
-    type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700" rel="stylesheet">
 
@@ -144,7 +108,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css" rel="stylesheet">
   <link href="css/fluid-gallery.css" rel="stylesheet">
 
-
 </head>
 
 <body id="page-top">
@@ -152,10 +115,8 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">PhotoConn</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-        aria-label="Toggle navigation">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">PhotoBook</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
       </button>
@@ -182,26 +143,12 @@
   <header class="masthead">
     <div class="container">
       <div class="intro-text">
-        <div class="intro-lead-in">Welcome To PhotoConn!</div>
+        <div class="intro-lead-in">Welcome To PhotoBook!</div>
         <div class="intro-heading text-uppercase">We connect photography geeks</div>
         <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#about">Tell Me More</a>
       </div>
     </div>
   </header>
-
-  <!-- <div class="form-popup" id="loginForm">
-    <form action="/action_page.php" class="form-container">
-      <h1>Login</h1>
-      <label for="email"><b>Username/Email</b></label>
-      <input type="text" placeholder="Enter Email" name="email" required>
-      <br>
-      <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
-      <br>
-      <button type="submit" class="btn">Login</button>
-      <div> New to PhotoConn? <button type="submit" class="btn" onclick="register()">Register Now!</button></div>
-    </form>
-  </div> -->
 
   <script>
     function openForm() {
@@ -231,8 +178,8 @@
       link.setAttribute("href", "#loginForm");
       link.innerHTML = "Login";
     }
-
   </script>
+
 
   <!-- About -->
   <section class="page-section" id="about">
@@ -240,10 +187,10 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">About</h2>
-          <h3 class="section-subheading text-muted"> PhotoConn is a solution for connecting photographers and customers
+          <h3 class="section-subheading text-muted"> PhotoBook is a solution for connecting photographers and customers
             alike by offering
             a marketplace for customers to request photography services,
-            and online platform for photographers to sell prints and photos. </h3>
+            and an online platform for photographers to sell prints and photos. </h3>
         </div>
       </div>
     </div>
@@ -334,7 +281,7 @@
     </div>
   </section>
 
-    <!-- Discover -->
+  <!-- Discover -->
   <section class="page-section" id="discover">
     <div class="container gallery-container">
       <div class="col-lg-12 text-center">
@@ -378,61 +325,52 @@
     </div>
   </section>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="login.js"></script>
   <!-- Sign In -->
   <section class="page-section" id="loginForm" style="background-color: #fa7822;">
     <div class="form-popup">
-      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;">
-        <div class="col-lg-12 text-center">
+      <div class="form-container" style="background-color: #ffffff;">
+      <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Welcome back!</h2>
+          <div id="loginMessage">Deo hieu</div>
         </div>
         <label for="email"><b>Username/Email</b></label>
         <div class="form-group">
-          <input class="form-control" id="usernameLogin" name="username" type="text" placeholder="Your Username/Email *"
-            required="required" data-validation-required-message="Please enter your username.">
+          <input class="form-control" id="loginUsername" name="loginUsername" type="text" placeholder="Your Username/Email *" required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
         <label for="psw"><b>Password</b></label>
         <div class="form-group">
-          <input class="form-control" id="paLogin" name="password" type="password" placeholder="Your Password *"
-            required="required" data-validation-required-message="Please enter your username.">
+          <input class="form-control" id="loginPassword" name="loginPassword" type="password" placeholder="Your Password *" required="required" data-validation-required-message="Please enter your username.">
           <p class="help-block text-danger"></p>
         </div>
         <div class="col-lg-12 text-center">
-          <button id="sendMessageButton2" class="btn btn-primary btn-xl text-uppercase" type="submit" name="login_php">Login</button>
+          <button id="loginBtn" class="btn btn-primary btn-xl text-uppercase" value="Submit" type="button" name="LoginBtn">Login</button>
         </div>
         <br>
-        <div> New to PhotoConn? <a class="btn" onclick="register()">Register Now!</a></div>
+        <div> New to PhotoBook? <a class="btn" onclick="register()">Register Now!</a></div>
         <div> Forgot your password? <a class="btn" onclick="register()">Reset Password</a></div>
-          <?php  if (count($_SESSION['errors']) > 0) : ?>
-    <div class="error">
-      <?php foreach ($_SESSION['errors'] as $error) : ?>
-        <p><?php echo $error ?></p>
-      <?php endforeach ?>
-    </div>
-  <?php  endif ?>
-      </form>
+      </div>
     </div>
   </section>
 
-  
+
   <!-- Register -->
   <section class="page-section" id="register" style="background-color: #fa7822;">
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;"
-    novalidate="novalidate" id="contactForm">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;" novalidate="novalidate" id="contactForm">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading text-uppercase">We're delighted to have you!</h2>
       </div>
       <label for="yourname"><b>About You</b></label>
       <div class="form-group">
-        <input class="form-control" id="firstname" name="firstname" type="text" placeholder="Your First Name *"
-          required="required" data-validation-required-message="Please enter your first name.">
+        <input class="form-control" id="newFN" name="firstname" type="text" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter your first name.">
         <p class="help-block text-danger"></p>
-        <input class="form-control" id="lastname" name="lastname" type="text" placeholder="Your Last Name *"
-          required="required" data-validation-required-message="Please enter your last name.">
+        <input class="form-control" id="newLN" name="lastname" type="text" placeholder="Your Last Name *" required="required" data-validation-required-message="Please enter your last name.">
         <p class="help-block text-danger"></p>
-        <input class="form-control" id="phoneN0" name="phonenumber" type="text" placeholder="Your Phone Number">
+        <input class="form-control" id="newPhoneN0" name="phonenumber" type="text" placeholder="Your Phone Number">
         <p class="help-block text-danger"></p>
-        <input class="form-control" id="zipcode" name="zipcode" type="text" placeholder="Your Zip Code">
+        <input class="form-control" id="newZipCode" name="zipcode" type="text" placeholder="Your Zip Code">
         <p class="help-block text-danger"></p>
         Are you a photographer or a customer? <br>
         <input type="checkbox" name="isPhotographer" value="Yes"> I'm a photographer<br>
@@ -440,19 +378,16 @@
       </div>
       <label for="email"><b>Username/Email</b></label>
       <div class="form-group">
-        <input class="form-control" id="usernameRegister" name="username" type="text" placeholder="Your Username= *"
-          required="required" data-validation-required-message="Please enter your username.">
+        <input class="form-control" id="usernameRegister" name="username" type="text" placeholder="Your Username= *" required="required" data-validation-required-message="Please enter your username.">
         <p class="help-block text-danger"></p>
       </div>
       <div class="form-group">
-        <input class="form-control" id="email" name="email" type="email" placeholder="Your Email *"
-          required="required" data-validation-required-message="Please enter your email.">
+        <input class="form-control" id="email" name="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email.">
         <p class="help-block text-danger"></p>
       </div>
       <label for="psw"><b>Password</b></label>
       <div class="form-group">
-        <input class="form-control" id="paRegister" name="password" type="password" placeholder="Your Password *"
-          required="required" data-validation-required-message="Please enter your password.">
+        <input class="form-control" id="paRegister" name="password" type="password" placeholder="Your Password *" required="required" data-validation-required-message="Please enter your password.">
         <p class="help-block text-danger"></p>
       </div>
       <div class="col-lg-12 text-center">
@@ -549,7 +484,7 @@
       <div class="row">
         <div class="col-lg-6 mx-auto text-center">
           <p class="large text-muted">Our team of designer, developer, and marketer
-            has collaborated very well to make PhotoConn a success.</p>
+            has collaborated very well to make PhotoBook a success.</p>
         </div>
       </div>
     </div>
@@ -560,16 +495,16 @@
     <div class="container">
       <div class="row">
         <div class="col-md-3 col-sm-6">
-            <img class="img-fluid d-block mx-auto" src="img/logos/canon.png" alt="">
+          <img class="img-fluid d-block mx-auto" src="img/logos/canon.png" alt="">
         </div>
         <div class="col-md-3 col-sm-6">
-            <img class="img-fluid d-block mx-auto" src="img/logos/nikon.png" alt="">
+          <img class="img-fluid d-block mx-auto" src="img/logos/nikon.png" alt="">
         </div>
         <div class="col-md-3 col-sm-6">
-            <img class="img-fluid d-block mx-auto" src="img/logos/sony.png" alt="">
+          <img class="img-fluid d-block mx-auto" src="img/logos/sony.png" alt="">
         </div>
         <div class="col-md-3 col-sm-6">
-            <img class="img-fluid d-block mx-auto" src="img/logos/fuji.png" alt="">
+          <img class="img-fluid d-block mx-auto" src="img/logos/fuji.png" alt="">
         </div>
       </div>
     </div>
@@ -630,7 +565,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-4">
-          <span class="copyright">Copyright &copy; PhotoConn 2020</span>
+          <span class="copyright">Copyright &copy; PhotoBook 2020</span>
         </div>
         <div class="col-md-4">
           <ul class="list-inline social-buttons">
@@ -666,7 +601,6 @@
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
@@ -679,10 +613,11 @@
   <!-- Custom scripts for this template -->
   <script src="js/photoconn.js"></script>
 
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
   <script>
     baguetteBox.run('.tz-gallery');
-</script>
+  </script>
 
 
 

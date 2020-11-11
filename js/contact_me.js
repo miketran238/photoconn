@@ -33,13 +33,13 @@ $(function() {
         data: {
           username: username,
           email: email,
-          firstname = firstname,
-          lastname = lastname,
-          password = password,
-          phone = phone,
-          zipcode = zipcode,
-          isPhotographer = isPhotographer,
-          isCustomer = isCustomer,
+          firstname: firstname,
+          lastname: lastname,
+          password: password,
+          phone: phone,
+          zipcode: zipcode,
+          isPhotographer: isPhotographer,
+          isCustomer: isCustomer,
           register_php: true
           // message: message
         },
