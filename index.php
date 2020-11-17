@@ -1,87 +1,4 @@
 <!DOCTYPE html>
-<?php
-include('db_connection.php');
-session_start();
-$_SESSION['errors'] = array();
-
-//Register functionality
-if (isset($_POST['register_php'])) {
-  echo "Register";
-  // receive all input values from the form
-  $username = mysqli_real_escape_string($db, $_POST['username']);
-  $email = mysqli_real_escape_string($db, $_POST['email']);
-  $firstname = mysqli_real_escape_string($db, $_POST['firstname']);
-  $lastname = mysqli_real_escape_string($db, $_POST['lastname']);
-  $password = mysqli_real_escape_string($db, $_POST['password']);
-  $type = 0; //Type of users. 0 is both. 1 is Photographer. 2 is Customer
-  $phone = '';
-  if ($_POST['phonenumber']) {
-    $phone = $_POST['phonenumber'];
-  }
-
-  if (isset($_POST['isPhotographer']) && $_POST['isPhotographer'] == 'Yes') {
-    if (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
-      $type = 0;
-    } else {
-      $type = 1;
-    }
-  } elseif (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
-    $type = 2;
-  } else {
-    array_push($_SESSION['errors'], "Need to check at least one type of users");
-  }
-
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $_SESSION['errors'] array
-  if (empty($username)) {
-    array_push($_SESSION['errors'], "Username is required");
-  }
-  if (empty($email)) {
-    array_push($_SESSION['errors'], "Email is required");
-  }
-  if (empty($password)) {
-    array_push($_SESSION['errors'], "Password is required");
-  }
-
-  // first check the database to make sure 
-  // a user does not already exist with the same username and/or email
-  $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
-  $result = mysqli_query($db, $user_check_query);
-  $user = mysqli_fetch_assoc($result);
-
-  if ($user) { // if user exists
-    if ($user['username'] === $username) {
-      array_push($_SESSION['errors'], "Username already exists");
-    }
-
-    if ($user['email'] === $email) {
-      array_push($_SESSION['errors'], "Email already exists");
-    }
-  }
-
-  // Finally, register user if there are no errors in the form
-  if (count($_SESSION['errors']) == 0) {
-    //$password = md5($password_1);//encrypt the password before saving in the database
-    echo "No errors";
-    $query = "INSERT INTO users (username, email, password, type, 
-      firstname, lastname, phone) 
-            VALUES('$username', '$email', '$password', $type, '$firstname', '$lastname', '$phone')";
-    mysqli_query($db, $query);
-    $_SESSION['username'] = $username;
-    $_SESSION['name'] = $firstname;
-    $_SESSION['success'] = "You are now logged in";
-    unset($_SESSION['errors']);
-    header('location: profile.php');
-  } else {
-    if (count($_SESSION['errors']) > 0) {
-      foreach ($_SESSION['errors'] as $error) {
-        echo $error;
-      }
-    }
-  }
-}
-?>
-
 <html lang="en">
 
 <head>
@@ -333,7 +250,7 @@ if (isset($_POST['register_php'])) {
       <div class="form-container" style="background-color: #ffffff;">
       <div class="col-lg-12 text-center">
           <h2 class="section-heading text-uppercase">Welcome back!</h2>
-          <div id="loginMessage">Deo hieu</div>
+          <div id="loginMessage"></div>
         </div>
         <label for="email"><b>Username/Email</b></label>
         <div class="form-group">
@@ -356,46 +273,48 @@ if (isset($_POST['register_php'])) {
   </section>
 
 
+  <script src="register.js"></script>
   <!-- Register -->
   <section class="page-section" id="register" style="background-color: #fa7822;">
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" class="form-container" style="background-color: #ffffff;" novalidate="novalidate" id="contactForm">
+    <div class="form-container" style="background-color: #ffffff;" novalidate="novalidate" name="registration" id="registerForm">
       <div class="col-lg-12 text-center">
         <h2 class="section-heading text-uppercase">We're delighted to have you!</h2>
+        <div id="registerMessage"></div>
       </div>
       <label for="yourname"><b>About You</b></label>
       <div class="form-group">
-        <input class="form-control" id="newFN" name="firstname" type="text" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter your first name.">
+        <input class="form-control" id="newFn" name="firstname" type="text" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter your first name.">
         <p class="help-block text-danger"></p>
-        <input class="form-control" id="newLN" name="lastname" type="text" placeholder="Your Last Name *" required="required" data-validation-required-message="Please enter your last name.">
+        <input class="form-control" id="newLn" name="lastname" type="text" placeholder="Your Last Name *" required="required" data-validation-required-message="Please enter your last name.">
         <p class="help-block text-danger"></p>
         <input class="form-control" id="newPhoneN0" name="phonenumber" type="text" placeholder="Your Phone Number">
         <p class="help-block text-danger"></p>
         <input class="form-control" id="newZipCode" name="zipcode" type="text" placeholder="Your Zip Code">
         <p class="help-block text-danger"></p>
         Are you a photographer or a customer? <br>
-        <input type="checkbox" name="isPhotographer" value="Yes"> I'm a photographer<br>
-        <input type="checkbox" name="isCustomer" value="Yes"> I'm a customer<br>
+        <input type="checkbox" id="isPhotographer" value="Yes"> I'm a photographer<br>
+        <input type="checkbox" id="isCustomer" value="Yes"> I'm a customer<br>
       </div>
       <label for="email"><b>Username/Email</b></label>
       <div class="form-group">
-        <input class="form-control" id="usernameRegister" name="username" type="text" placeholder="Your Username= *" required="required" data-validation-required-message="Please enter your username.">
+        <input class="form-control" id="newUserName" name="username" type="text" placeholder="Your Username= *" required="required" data-validation-required-message="Please enter your username.">
         <p class="help-block text-danger"></p>
       </div>
       <div class="form-group">
-        <input class="form-control" id="email" name="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email.">
+        <input class="form-control" id="newEmail" name="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email.">
         <p class="help-block text-danger"></p>
       </div>
       <label for="psw"><b>Password</b></label>
       <div class="form-group">
-        <input class="form-control" id="paRegister" name="password" type="password" placeholder="Your Password *" required="required" data-validation-required-message="Please enter your password.">
+        <input class="form-control" id="newPw" name="password" type="password" placeholder="Your Password *" required="required" data-validation-required-message="Please enter your password.">
         <p class="help-block text-danger"></p>
       </div>
       <div class="col-lg-12 text-center">
-        <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" type="submit" name="register_php">Register</button>
+        <button id="registerBtn" class="btn btn-primary btn-xl text-uppercase" type="submit" name="RegisterButton">Register</button>
       </div>
       <div> Already a member? <a class="btn" onclick="login()">Login Now!</a></div>
-    </form>
-    </div>
+  </div> 
+  </div>
   </section>
 
   <!-- Team -->
@@ -605,14 +524,16 @@ if (isset($_POST['register_php'])) {
 
   <!-- Plugin JavaScript -->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
 
   <!-- Contact form JavaScript -->
   <script src="js/jqBootstrapValidation.js"></script>
   <script src="js/contact_me.js"></script>
 
-  <!-- Custom scripts for this template -->
+  <!-- Custom scripts for the page -->
   <script src="js/photoconn.js"></script>
-
+  <script src="js/form-validation.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.js"></script>
   <script>
