@@ -27,20 +27,6 @@
     $type = 2; #customers only
   }
 
-  // form validation: ensure that the form is correctly filled ...
-  // by adding (array_push()) corresponding error unto $_SESSION['errors'] array
-  // if (empty($username)) {
-  //   array_push($_SESSION['errors'], "Username is required");
-  // }
-  // if (empty($email)) {
-  //   array_push($_SESSION['errors'], "Email is required");
-  // }
-  // if (empty($password)) {
-  //   array_push($_SESSION['errors'], "Password is required");
-  // }
-
-  // first check the database to make sure 
-  // a user does not already exist with the same username and/or email
   $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);
   $user = mysqli_fetch_assoc($result);

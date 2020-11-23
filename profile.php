@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
-  session_start();
-  ?>
+    session_start();
+?>
 <html lang="en">
 
 <head>
@@ -30,6 +30,10 @@
   <link href="css/photoconn.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css" rel="stylesheet">
   <link href="css/fluid-gallery.css" rel="stylesheet">
+
+  <!-- Custom scripts for this page -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/checkUserType.js"></script>
 
 
 
@@ -81,6 +85,7 @@
   <!-- Home -->
   <section class="page-section" id="home">
     <div class="container gallery-container">
+    <div id="checkUser"></div>
       <div class="col-lg-12 text-center">
         <h2 class="section-heading">Your Photos</h2>
       </div>
