@@ -68,14 +68,6 @@
   </header>
 
   <script>
-    function openForm() {
-      document.getElementById("loginForm").style.display = "block";
-    }
-
-    function closeForm() {
-      document.getElementById("loginForm").style.display = "none";
-    }
-
     function register() {
       document.getElementById("loginForm").style.display = "none";
       document.getElementById("loginForm").style.visibility = "hidden";

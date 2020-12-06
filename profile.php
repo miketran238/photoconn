@@ -11,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>PhotoConn - Connect Photography Geeks</title>
+  <title>PhotoBook - Connect Photography Geeks</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,11 +30,15 @@
   <link href="css/photoconn.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css" rel="stylesheet">
   <link href="css/fluid-gallery.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css"/>
 
   <!-- Custom scripts for this page -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="js/checkUserType.js"></script>
-
+  <script src="js/upload.js"></script>
+  <script src="http://malsup.github.com/jquery.form.js"></script> 
+  <script src="js/jquery.datetimepicker.js"></script>
+  <script src="js/jquery.datetimepicker.full.min.js"></script>
 
 
 </head>
@@ -44,7 +48,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">PhotoConn</a>
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">PhotoBook</a>
       <span> <h2 class="white">Hi, <?php echo $_SESSION['name']; ?>!</h2> </span>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -58,7 +62,7 @@
             <a class="nav-link js-scroll-trigger" href="#home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+            <a class="nav-link js-scroll-trigger" href="#photos">Your Photos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link js-scroll-trigger" href="#discover">Discover</a>
@@ -82,37 +86,62 @@
     </div>
   </header>
 
-  <!-- Home -->
-  <section class="page-section" id="home">
+  <section class="bids" id="bids">
+    <div class="col-lg-12 text-center">
+      <h2>Make a new Request </h2>
+      <p>
+      <input type="text" id="datetimepicker"/> <br>
+      Location: <input type="text" id="reqLoc"> <br>
+      Type of photography: <input type="text" id="reqType"> <br>
+      <button id="chooseTimeDateBtn">Confirm Request </button> <br>
+      </p>
+      <h1> Your Current Requests: </h1>
+      <p> <b>12/15/2020</b> at <b>13PM</b> Wedding Photography in <i>Queens, NY</i>
+      <h2> Bids by: </h2>
+      <p><b><a href=""> Mike Tran</a> </b> at $50 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
+        Select </a> </p>
+      <p><b><a href=""> Elizabeth Brown</a> </b> at $100 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
+        Select </a> </p>
+    </div>
+  </section>
+
+  <!-- Photos -->
+  <section class="page-section" id="photos">
     <div class="container gallery-container">
-    <div id="checkUser"></div>
+    <!-- <div id="checkUser"></div> -->
       <div class="col-lg-12 text-center">
         <h2 class="section-heading">Your Photos</h2>
       </div>
       <div class="tz-gallery">
-        <div class="row">
+        <div id="myGallery" class="row">
           <div class="col-sm-12 col-md-4">
-            <a class="lightbox" href="img/bridge.jpg">
-              <img src="img/bridge.jpg" alt="Bridge">
+            <a class="lightbox" href="img/BostonSkyline.jpg">
+              <img src="img/BostonSkyline.jpg" alt="Bridge">
             </a>
           </div>
           <div class="col-sm-6 col-md-4">
-            <a class="lightbox" href="img/park.jpg">
-              <img src="img/park.jpg" alt="Park">
+            <a class="lightbox" href="img/DallasSkyline.jpg">
+              <img src="img/DallasSkyline.jpg" alt="Park">
             </a>
           </div>
           <div class="col-sm-6 col-md-4">
-            <a class="lightbox" href="img/tunnel.jpg">
-              <img src="img/tunnel.jpg" alt="Tunnel">
+            <a class="lightbox" href="img/DallasSkyline2.jpg">
+              <img src="img/DallasSkyline2.jpg" alt="Tunnel">
             </a>
           </div>
           <div class="col-sm-6 col-md-4">
           </div>
         </div>
       </div>
-      <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#about">Upload</a>
+      
+      <form id="myForm" action="" method="post" enctype="multipart/form-data">
+      Select image to upload:
+      <input type="file" name="fileToUpload" id="file">
+      <input type="submit" value="Upload" id="uploadBtn" class="btn btn-primary btn-xl text-uppercase js-scroll-trigger">
+      </form>
     </div>
   </section>
+
 
   <section class="page-section" id="discover">
     <div class="container gallery-container">
@@ -168,7 +197,7 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-4">
-          <span class="copyright">Copyright &copy; PhotoConn 2020</span>
+          <span class="copyright">Copyright &copy; PhotoBook 2020</span>
         </div>
         <div class="col-md-4">
           <ul class="list-inline social-buttons">
@@ -206,7 +235,7 @@
   
 
   <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
+
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Plugin JavaScript -->
