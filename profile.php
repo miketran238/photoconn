@@ -86,7 +86,7 @@
     </div>
   </header>
 
-  <section class="bids" id="bids">
+  <section class="bids" id="requests">
     <div class="col-lg-12 text-center">
       <h2>Make a new Request </h2>
       <p>
@@ -96,13 +96,27 @@
       <button id="chooseTimeDateBtn">Confirm Request </button> <br>
       </p>
       <h1> Your Current Requests: </h1>
-      <p> <b>12/15/2020</b> at <b>13PM</b> Wedding Photography in <i>Queens, NY</i>
+      <table id="requestTable" class="" style="display:inline-block"> 
+</table>
+      <!-- <p> <b>12/15/2020</b> at <b>13PM</b> Wedding Photography in <i>Queens, NY</i> -->
       <h2> Bids by: </h2>
-      <p><b><a href=""> Mike Tran</a> </b> at $50 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
+      <!-- <p><b><a href=""> Mike Tran</a> </b> at $50 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
         Select </a> </p>
       <p><b><a href=""> Elizabeth Brown</a> </b> at $100 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
-        Select </a> </p>
+        Select </a> </p> -->
     </div>
+  </section>
+
+  <section class="page-section col-lg-12 text-center" id="bids">
+    <h2>Choose a Request to bid on</h2>
+    <b> Set your rate </b>
+    $<input type="text" id="myRate" size="2"> / per hour
+    <br>
+    <div>
+    <table id="allRequest" class="" style="display:inline-block">
+    
+   </table>
+</div>
   </section>
 
   <!-- Photos -->
