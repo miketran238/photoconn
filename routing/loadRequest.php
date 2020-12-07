@@ -12,7 +12,7 @@
       $uid = $datarow['user_id'];
       $requestQuery = "SELECT * FROM request WHERE u_id='$uid'";
       $requestResult = mysqli_query($db, $requestQuery);                         
-      $requestData = $requestResult->fetch_array();
+      // $requestData = $requestResult->fetch_array();
       if (mysqli_num_rows($requestResult) > 0) {
         echo "<table border='1' >
         <tr>
@@ -21,12 +21,12 @@
         <td align=center><b> Date and Time</b></td></td>
         </tr>";
 
-        while($data = mysqli_fetch_row($requestResult))
+        while($requestData = mysqli_fetch_row($requestResult))
         {   
             echo "<tr>";
-            echo "<td align=center>$data[2]</td>";
-            echo "<td align=center>$data[3]</td>";
-            echo "<td align=center>$data[4]</td>";
+            echo "<td align=center>$requestData[2]</td>";
+            echo "<td align=center>$requestData[3]</td>";
+            echo "<td align=center>$requestData[4]</td>";
             echo "</tr>";
         }
         echo "</table>";
@@ -35,6 +35,4 @@
       }
       
   }
-  
-
 ?>

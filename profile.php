@@ -104,6 +104,8 @@
         Select </a> </p>
       <p><b><a href=""> Elizabeth Brown</a> </b> at $100 per hour. <a href=""> Contact </a> <a class="btn btn-primary">
         Select </a> </p> -->
+        <table id="bidsTable" style="display:inline-block"> 
+        </table>
     </div>
   </section>
 

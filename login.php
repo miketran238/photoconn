@@ -4,8 +4,8 @@
     $_SESSION['errors'] = array();
     $username = mysqli_real_escape_string($db, $_POST['username']);
     $password = mysqli_real_escape_string($db, $_POST['password']);
-    error_log("$username",0);
-    error_log("$password",0);
+    #error_log("$username",0);
+    #error_log("$password",0);
     //$password = md5($password);
 
     $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";

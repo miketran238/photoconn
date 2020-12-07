@@ -16,29 +16,22 @@ $(window).on("load", function(){
                     url:'routing/loadAllRequests.php',
                     type:'post',
                     success:function(allRequests) {
-                        console.log(allRequests);
+                        // console.log(allRequests);
                         $('#allRequest').html(allRequests);
                     },
                     complete:function() {
-                        // $("#chooseBid").on('click',function(){
-                        //     var reqId = $("#chooseBid").val();
-                        //     console.log(reqId)
-                        // })
-                        // var selectButtons = document.getElementById("allRequest");
-                        // selectButtons.addEventListener('click', event => {
-                        //     event.preventDefault();
-                        //     console.log(event.target.value);
-                        //   });
                         var selectButtons = document.getElementsByClassName('chooseBid');
-                        console.log(selectButtons)
+                        // console.log(selectButtons)
                         for (var i = 0 ; i < selectButtons.length; i++) {
                             selectButtons[i].addEventListener('click' , event => {
                                 console.log(event.target.value);
-                                var myRate = $("#myRate").val;
+                                var myRate = $("#myRate").val();
+                                console.log(myRate)
+                                var reqId = event.target.value
                                 $.ajax({
                                     url:'selectBid.php',
                                     type:'post',
-                                    data:{req_id:event.target.value, rate:myRate},
+                                    data:{req_id:reqId, rate:myRate},
                                     success:function(confirmSelectBid){
                                         window.alert("You successfully bid on this request")
                                     }
@@ -65,6 +58,16 @@ $(window).on("load", function(){
                     success:function(loadRequestResponse) {
                         console.log(loadRequestResponse);
                         $('#requestTable').html(loadRequestResponse);
+                    },
+                    complete:function() {
+                        $.ajax({
+                            url:'routing/loadBids.php',
+                            type:'post',
+                            success:function(bidResultResponse){
+                                console.log(bidResultResponse)
+                                $('#bidsTable').html(bidResultResponse);
+                            }
+                        })
                     }
                 });
             }
