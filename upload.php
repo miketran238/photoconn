@@ -28,15 +28,11 @@ if(isset($_FILES['file']['name'])){
    <a class="lightbox" href="'.$response.
    '
    ">
-   <img src="'.$response.'" alt="Bridge">
+   <img src="'.$response.'" alt="New Photo">
    </a>
     </div>
    ';
-
-
-
    echo $html;
-   exit;
 }
 
-echo 0;
+?>

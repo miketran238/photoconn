@@ -16,7 +16,7 @@ $(window).on("load", function(){
                     url:'routing/loadAllRequests.php',
                     type:'post',
                     success:function(allRequests) {
-                        // console.log(allRequests);
+                        console.log(allRequests);
                         $('#allRequest').html(allRequests);
                     },
                     complete:function() {
@@ -40,9 +40,8 @@ $(window).on("load", function(){
                          }
                     }
                 });
-
-
-            } else if (response == 2) {
+            } 
+            else if (response == 2) {
                 msg = "Customer only"
                 document.getElementById("photos").style.display = "none";
                 document.getElementById("photos").style.visibility = "hidden";
@@ -117,29 +116,4 @@ $(window).on("load", function(){
         });
     })
 
-    $("#chooseBid").on('click',function(){
-        var reqId = $("#chooseBid").val();
-        console.log(reqId)
-            // $.ajax({
-            //     url:'login.php',
-            //     type:'post',
-            //     data:{username:username,password:password},
-            //     success:function(response){
-            //         var msg = "";
-            //         console.log(response)
-            //         if(response == 1){
-            //             msg = "";
-            //             location.href = "profile.php";
-            //             console.log(msg);
-            //             $("#loginMessage").html(msg);
-            //         }else{
-            //             msg = "Invalid username and password!";
-            //             console.log(msg);
-            //             $("#loginMessage").html(msg);
-            //         }
-
-            //     }
-            // });
-        // }
-    });
 });

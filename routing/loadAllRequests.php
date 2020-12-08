@@ -2,8 +2,8 @@
   include('../db_connection.php');
   session_start();
       $requestQuery = "SELECT * FROM request";
-      $requestResult = mysqli_query($db, $requestQuery);                         
-      $requestData = $requestResult->fetch_array();
+      $requestResult = mysqli_query($db, $requestQuery); 
+      // error_log($requestQuery);                     
       if (mysqli_num_rows($requestResult) > 0) {
         echo "<table border='1'>
         <tr>

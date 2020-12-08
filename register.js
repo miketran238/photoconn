@@ -1,6 +1,5 @@
 $(window).on("load", function(){
     $("#registerBtn").on('click',function(){
-        console.log('Here')
         var firstname = $("#newFn").val().trim();
         var lastname = $("#newLn").val().trim();
         var phonenumber = $("#newPhoneN0").val().trim();
@@ -8,8 +7,13 @@ $(window).on("load", function(){
         var username = $("#newUserName").val().trim();
         var email = $("#newEmail").val().trim();
         var password = $("#newPw").val().trim();
-        var isPhotographer = $('#isPhotographer').val();
-        var isCustomer = $('#isCustomer').val();
+        var isPhotographer = false, isCustomer = false;
+        if($('#isPhotographer').prop('checked') == true ){
+            isPhotographer = true;
+        }
+        if($('#isCustomer').prop('checked') == true ){
+            isCustomer = true;
+        }
         console.log(isPhotographer, isCustomer);
         var msg = "";
         if( username != "" && password != "" ){
@@ -21,9 +25,9 @@ $(window).on("load", function(){
                     email:email, isPhotographer: isPhotographer, isCustomer: isCustomer,
                     phonenumber:phonenumber},
                 success:function(response){
-                    console.log(response)
+                    // console.log(response)
                     if(response == 1){
-                        msg = "Register successfully!, please login";
+                        msg = "Register successfully!, please login!";
                         document.getElementById("loginForm").style.display = "block";
                         document.getElementById("loginForm").style.visibility = "visible";
                         document.getElementById("register").style.display = "none";

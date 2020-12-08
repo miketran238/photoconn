@@ -116,9 +116,8 @@
     <br>
     <div>
     <table id="allRequest" class="" style="display:inline-block">
-    
    </table>
-</div>
+    </div>
   </section>
 
   <!-- Photos -->
@@ -144,8 +143,6 @@
             <a class="lightbox" href="img/DallasSkyline2.jpg">
               <img src="img/DallasSkyline2.jpg" alt="Tunnel">
             </a>
-          </div>
-          <div class="col-sm-6 col-md-4">
           </div>
         </div>
       </div>

@@ -284,8 +284,8 @@
         <input class="form-control" id="newZipCode" name="zipcode" type="text" placeholder="Your Zip Code">
         <p class="help-block text-danger"></p>
         Are you a photographer or a customer? <br>
-        <input type="checkbox" id="isPhotographer" value="Yes"> I'm a photographer<br>
-        <input type="checkbox" id="isCustomer" value="Yes"> I'm a customer<br>
+        <input type="checkbox" id="isPhotographer" value="isPhotographer"> I'm a photographer<br>
+        <input type="checkbox" id="isCustomer" value="isCustomer"> I'm a customer<br>
       </div>
       <label for="email"><b>Username/Email</b></label>
       <div class="form-group">

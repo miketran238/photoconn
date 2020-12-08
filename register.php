@@ -17,15 +17,23 @@
   $type = 0; //Type of users. 0 is both. 1 is Photographer. 2 is Customer
 
 
-  if (isset($_POST['isPhotographer']) && $_POST['isPhotographer'] == 'Yes') {
-    if (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
-      $type = 0; #both photographers and customers
-    } else {
+  // if (isset($_POST['isPhotographer']) && $_POST['isPhotographer'] == 'Yes') {
+  //   if (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
+  //     $type = 0; #both photographers and customers
+  //   } else {
+  //     $type = 1; #photographers only
+  //   }
+  // } elseif (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
+  //   $type = 2; #customers only
+  // }
+
+  if ($_POST['isPhotographer'] === 'true') {
       $type = 1; #photographers only
-    }
-  } elseif (isset($_POST['isCustomer']) && $_POST['isCustomer'] == 'Yes') {
+  } elseif ($_POST['isCustomer'] === 'true') {
     $type = 2; #customers only
   }
+  error_log($_POST['isPhotographer'],0);
+  error_log($_POST['isCustomer'],0);
 
   $user_check_query = "SELECT * FROM users WHERE username='$username' OR email='$email' LIMIT 1";
   $result = mysqli_query($db, $user_check_query);

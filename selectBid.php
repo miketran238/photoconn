@@ -16,6 +16,7 @@
       $query = "INSERT INTO bids (c_id, req_id, rate) 
             VALUES('$uid', '$req_id', '$rate')";
     mysqli_query($db, $query);
+    error_log($query);
      echo 1;
   }
 ?>
