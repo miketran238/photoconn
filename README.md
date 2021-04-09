@@ -17,7 +17,7 @@ Currently, it is deployed on local machine with WAMP server.
 
 <h1> Profile Page </h1>
 <img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn4.png">
-<img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn5.png">
+<img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn5.jpg">
 
 <h2> Upload Photo </h2>
 <img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn8.png">
