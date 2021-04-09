@@ -1,7 +1,8 @@
 Hi, this is my project PhotoConn for making connections between photographers and customers.
 The project will use frontend of Javascript, Html, CSS, and backend of PhP, MySQL.
 Currently, it is deployed on local machine with WAMP server.
-<h1> Database Design <h1>
+<h1> Database Design </h1>
+ ![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
  ![alt text](https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn3.jpg?raw=true)
  
 <h1> Homepage </h1>
