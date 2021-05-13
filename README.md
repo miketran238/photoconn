@@ -13,7 +13,6 @@ Currently, it is deployed on local machine with WAMP server.
 
 <h1> Login </h1>
 <img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn6.png">
-![alt text](https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn6.png?raw=true)
 
 <h1> Profile Page </h1>
 <img src="https://github.com/miketran238/PhotoConn/blob/master/img/about/photoconn4.png">
